@@ -33,12 +33,12 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: testReport
-          path: ./report.json
+          path: report.json
       - name: Archive code coverage results
         uses: actions/upload-artifact@v1
         with:
           name: coverageReport
-          path: ./coverage.out
+          path: coverage.out
   sonarcloud:
     name: SonarCloud
     needs: test
@@ -51,12 +51,12 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: testReport
-          path: ./report.json
+          path: report.json
       - name: Download code coverage results
         uses: actions/download-artifact@v1
         with:
           name: coverageReport
-          path: ./coverage.out
+          path: coverage.out
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -67,5 +67,5 @@ jobs:
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
             -Dsonar.tests=.
-            -Dsonar.go.tests.reportPaths=./report.json
-            -Dsonar.go.coverage.reportPaths=./coverage.out
+            -Dsonar.go.tests.reportPaths=${{ GITHUB_WORKSPACE }}/report.json
+            -Dsonar.go.coverage.reportPaths=${{ GITHUB_WORKSPACE }}/coverage.out
