@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: go build -v ./...
       - name: Test
-        run: go test -coverprofile=coverage.out
+        run: go test -json -coverprofile=coverage.out > report.json
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -39,4 +39,5 @@ jobs:
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
             -Dsonar.tests=.
+            -Dsonar.go.tests.reportPaths=report.json
             -Dsonar.go.coverage.reportPaths=coverage.out
