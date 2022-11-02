@@ -5,9 +5,9 @@ name: SonarCloud analysis
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
@@ -28,3 +28,4 @@ jobs:
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
             -Dsonar.tests=.
+            -Dsonar.go.coverage.reportPaths=go test -coverprofile=coverage.out
