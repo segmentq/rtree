@@ -56,6 +56,10 @@ jobs:
           args: >
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/*_test.go,**/vendor/**,**/testdata/*
             -Dsonar.tests=.
+            -Dsonar.test.inclusions=**/*_test.go
+            -Dsonar.test.exclusions=**/vendor/**
             -Dsonar.go.tests.reportPaths=artifact/report.json
             -Dsonar.go.coverage.reportPaths=artifact/coverage.out
