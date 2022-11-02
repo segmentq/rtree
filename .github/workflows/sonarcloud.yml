@@ -34,4 +34,4 @@ jobs:
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
             -Dsonar.tests=.
-            -Dsonar.go.coverage.reportPaths=go test -coverprofile=coverage.out
+            -Dsonar.go.coverage.reportPaths=coverage.out
