@@ -2,29 +2,35 @@
 # or reach out to our community forum if you need some help (https://community.sonarsource.com/c/help/sc/9)
 
 name: SonarCloud analysis
-
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
-  workflow_dispatch:
-
-permissions:
-  pull-requests: read
-
+    types: [opened, synchronize, reopened]
 jobs:
-  Analysis:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
-
     steps:
-      - name: Analyze with SonarCloud
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.19
+      - name: Build
+        run: go build -v ./...
+      - name: Test
+        run: go test -coverprofile=coverage.out
+      - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          args:
+          args: >
             -Dsonar.projectKey=segmentq_rtree
             -Dsonar.organization=segmentq
             -Dsonar.tests=.
